@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="utf-8">
+  <title>实时参数修改</title>
+  <link href="/index.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript"></script>
+  
+</head>
+
+<body>
+  <label class="page-title">实时参数修改</label><br>
+
+  <form method="POST" action="http://127.0.0.1:4100/api/sendStatus">
+    <label class="para-label">机床状态：</label><br>
+    <tr>
+      <td><input class="para-radio" type="radio" name="status" value=0 onclick="getValue(this.value)">关机</td>
+      <td><input class="para-radio" type="radio" name="status" value=1 onclick="getValue(this.value)">空闲</td>
+      <td><input class="para-radio" type="radio" name="status" value=2 checked onclick="getValue(this.value)">加工</td>
+      <td><input class="para-radio" type="radio" name="status" value=3 onclick="getValue(this.value)">暂停</td>
+      <td><input class="para-radio" type="radio" name="status" value=4 onclick="getValue(this.value)">故障</td>
+    </tr><br>
+    <label class="para-label">故障类型：</label><br>
+    <tr>
+      <td><input class="para-check" type="checkbox" id="wireBreak" name="wireBreak" value="false">断丝</td>
+      <td><input class="para-check" type="checkbox" id="circuitShort" name="circuitShort" value="false">短路</td>
+      <td><input class="para-check" type="checkbox" id="fluidFail" name="fluidFail" value="false">冲液</td>
+      <td><input class="para-check" type="checkbox" id="powerFail" name="powerFail" value="false">电源</td>
+    </tr><br>
+    <label class="para-label">任务完成：</label>
+      <input type="checkbox" id="wireBreak" name="complete" value="true"><br>   
+    <input class="page-button" type="submit" value="提交状态">
+    <script>
+        document.getElementById("wireBreak").disabled = true;
+        document.getElementById("circuitShort").disabled = true;
+        document.getElementById("fluidFail").disabled = true;
+        document.getElementById("powerFail").disabled = true;
+      function getValue(value) {
+        if (value == 4 ) {
+          document.getElementById("wireBreak").disabled = false;
+          document.getElementById("circuitShort").disabled = false;
+          document.getElementById("fluidFail").disabled = false;
+          document.getElementById("powerFail").disabled = false;
+        } else {
+          document.getElementById("wireBreak").disabled = true;
+          document.getElementById("circuitShort").disabled = true;
+          document.getElementById("fluidFail").disabled = true;
+          document.getElementById("powerFail").disabled = true;
+          document.getElementById("wireBreak").checked = false;
+          document.getElementById("circuitShort").checked = false;
+          document.getElementById("fluidFail").checked = false;
+          document.getElementById("powerFail").checked = false;
+        }
+      }
+    </script>
+  </form>
+
+  <form method="POST" action="http://127.0.0.1:4100/api/sendParameter">
+    <label class="para-label">I/O开关：</label><br>
+    <tr>
+      <td><input class="para-check" type="checkbox" id="dischargePermit" name="dischargePermit" value="true" checked>放电</td>
+      <td><input class="para-check" type="checkbox" id="feedPermit" name="feedPermit" value="true" checked>进给</td>
+      <td><input class="para-check" type="checkbox" id="wirePermit" name="wirePermit" value="true" checked>走丝</td>
+      <td><input class="para-check" type="checkbox" id="fluidPermit" name="fluidPermit" value="true" checked>冲液</td>
+    </tr><br>
+    <!--<label class="para-label">实时坐标:</label><br>
+    <label class="coor-label">X:</label>
+    <input class="coor-input" type="text"  value="12.11" required>
+    <label class="coor-label">Y:</label>
+    <input class="coor-input" type="text" value="20.01" required><br>
+    <label class="coor-label">U:</label>
+    <input class="coor-input" type="text" value="12.11" required>
+    <label class="coor-label">V:</label>
+    <input class="coor-input" type="text" value="20.01" required><br>-->
+    <label class="para-label">脉冲宽度:</label>
+    <input class="para-input" type="text" name="pulseWidth" value="7" required>
+    <label class="para-label">脉冲间隙:</label>
+    <input class="para-input" type="text" name="pulseInterval" value="12" required><br>
+    <label class="para-label">峰值电流:</label>
+    <input class="para-input" type="text" name="peakCurrent" value="10" required>
+    <label class="para-label">空载电压:</label>
+    <input class="para-input" type="text" name="openCircuitVoltage" value="80" required><br>
+    <label class="para-label">走丝速度:</label>
+    <input class="para-input" type="text" name="wireSpeed" value="10" required>
+    <label class="para-label">跟踪间隙:</label>
+    <input class="para-input" type="text" name="followGap" value="0.15" required><br>
+    <label class="para-label">切割速度:</label>
+    <input class="para-input" type="text" name="cutSpeed" value="10" required><br>
+    <input class="page-button" type="submit" value="提交修改">
+  </form>
+</body>
+
+</html>

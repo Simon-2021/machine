@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="utf-8">
+  <title>任务发布</title>
+  <link href="/index.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript">
+    var i;
+    var machineNumData = "<%= machineNum %>";
+    var machineNameData = "<%= machineName %>";
+    var orderNumData = "<%= orderNum %>";
+    var machineNum = machineNumData.split(',');
+    var machineName = machineNameData.split(',');
+    var orderNum = orderNumData.split(',');
+    // console.log(machine);
+    function machineSelect() {
+      for (i = 0; i < machineNum.length; i++) {
+        document.taskform.machine.options[i] = new Option(machineName[i], machineNum[i]);
+      }
+      // console.log("get focus");
+    }
+    function orderSelect() {
+      for (i = 0; i < orderNum.length; i++) {
+        document.taskform.order.options[i] = new Option(orderNum[i], orderNum[i]);
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <label class="page-title">任务发布</label>
+  <form id="taskform" name="taskform" class="page-form" method="POST" action="http://127.0.0.1:4100/api/sendTask">
+    <label class="page-label">操作员:</label>
+    <select class="page-input" name="operator" required>
+      <option value="<%= operator%>" selected><%= operator%></option>
+    </select><br>
+    <label class="page-label">选择机床:</label>
+    <select size="1" class="page-input" name="machine" onfocus="machineSelect()" required> 
+    </select><br>
+    <label class="page-label">选择订单:</label>
+    <select size="1" class="page-input" name="order" onfocus="orderSelect()" required> 
+    </select><br>
+    <label class="page-label">任务名称:</label>
+    <input class="page-input" type="text" name="taskName" value="切割任务12" required><br>
+    <label class="page-label">电极直径:</label>
+    <input class="page-input" type="text" name="wireDiameter" value="0.8" required><br>
+    <label class="page-label">工件材料:</label>
+    <input class="page-input" type="text" name="partMaterial" value="45#" required><br>
+    <label class="page-label">工件厚度:</label>
+    <input class="page-input" type="text" name="partThickness" value="12" required><br>
+    <label class="page-label">工作液:</label>
+    <input class="page-input" type="text" name="cutFluid" value="M0251" required><br>
+    <label class="page-label">工时:</label>
+    <input class="page-input" type="text" name="time" value=1.6 required><br>
+    <input class="page-button" type="submit" value="发布任务">
+  </form>
+</body>
+
+</html>
